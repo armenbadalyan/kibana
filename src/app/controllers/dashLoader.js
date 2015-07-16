@@ -7,13 +7,14 @@ function (angular, _) {
 
   var module = angular.module('kibana.controllers');
 
-  module.controller('dashLoader', function($scope, $http, timer, dashboard, alertSrv, $location) {
+  module.controller('dashLoader', function($rootScope, $scope, $http, timer, dashboard, alertSrv, $location) {
     $scope.loader = dashboard.current.loader;
 
     $scope.init = function() {
       $scope.gist_pattern = /(^\d{5,}$)|(^[a-z0-9]{10,}$)|(gist.github.com(\/*.*)\/[a-z0-9]{5,}\/*$)/;
       $scope.gist = $scope.gist || {};
       $scope.elasticsearch = $scope.elasticsearch || {};
+      $scope.settings = {elasticsearch : $scope.config.elasticsearch};
     };
 
     $scope.showDropdown = function(type) {
@@ -30,6 +31,9 @@ function (angular, _) {
       }
       if(type === 'share') {
         return (_l.save_temp);
+      }
+      if(type === 'settings') {
+        return true; 
       }
       return false;
     };
@@ -121,6 +125,13 @@ function (angular, _) {
           alertSrv.set('Gist Failed','Could not retrieve dashboard list from gist','error',5000);
         }
       });
+    };
+
+    $scope.save_settings = function () {
+      var oldSettings = angular.extend({}, $scope.config);
+      $scope.config.elasticsearch = $scope.settings.elasticsearch;
+
+      $scope.$emit('settingsChanged', {oldSettings:oldSettings, newSettings:$scope.config});      
     };
 
   });

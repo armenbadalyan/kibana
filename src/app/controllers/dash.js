@@ -10,7 +10,7 @@ function (angular, config, _) {
   var module = angular.module('kibana.controllers');
 
   module.controller('DashCtrl', function(
-    $scope, $route, ejsResource, fields, dashboard, alertSrv, panelMove, esVersion, kbnVersion) {
+    $scope, $route, $location, ejsResource, fields, dashboard, alertSrv, panelMove, esVersion, kbnVersion) {
 
     $scope.Math = Math;
 
@@ -46,6 +46,13 @@ function (angular, config, _) {
       $scope.reset_row();
 
       $scope.ejs = ejsResource(config.elasticsearch);
+
+      $scope.$on('settingsChanged', function(event, changes) {
+        if (changes.newSettings.elasticsearch !== changes.oldSettings.elasticsearch) {
+          $scope.ejs = ejsResource(changes.newSettings.elasticsearch);
+          $location.path('/dashboard');
+        } 
+      });
     };
 
     $scope.isPanel = function(obj) {

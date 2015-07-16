@@ -32,7 +32,10 @@
     "grunt-scratchy": "git://github.com/rashidkpc/grunt-scratchy.git",
     "glob": "~3.2.8",
     "kat": "~0.2.2",
-    "expect.js": "~0.2.0"
+    "expect.js": "~0.2.0",
+    "cca": "^0.7.1",
+    "cordova": "^5.1.1",
+    "grunt-cordovacli": "^0.8.2"
   },
   "license": "Apache License"
 }

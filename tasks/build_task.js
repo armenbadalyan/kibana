@@ -2,18 +2,21 @@ module.exports = function(grunt) {
 
   // Concat and Minify the src directory into dist
   grunt.registerTask('build', [
-    'jshint:source',
-    'clean:on_start',
-    'less:dist',
-    'copy:almost_everything_to_temp',
-    'htmlmin:build',
-    'cssmin:build',
-    'ngmin:build',
-    'requirejs:build',
-    'clean:temp',
-    'build:write_revision',
-    'uglify:dest'
-  ]);
+        'jshint:source',
+        'clean:on_start',
+        'cordovacli:create',
+        'less:dist',
+        'copy:almost_everything_to_temp',
+        'htmlmin:build',
+        'cssmin:build',
+        'ngmin:build',
+        'requirejs:build',
+        'clean:temp',
+        'build:write_revision',
+        'uglify:dest',
+        'cordovacli:add_platforms',
+        'cordovacli:build_ios'
+    ]);
 
   // run a string replacement on the require config, using the latest revision number as the cache buster
   grunt.registerTask('build:write_revision', function() {

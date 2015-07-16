@@ -6,14 +6,15 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     baseDir: '.',
     srcDir: 'src',
-    destDir: 'dist',
+    destDir: 'dist/www',
+    cordovaDir: 'dist',
     tempDir: 'tmp',
     docsDir: 'docs/',
     unitTests: 'test/unit/specs/**/*.js',
     unitTestDir: 'test/unit/'
   };
 
-  // load plugins
+    // load plugins
   require('load-grunt-tasks')(grunt);
 
   // load task definitions
