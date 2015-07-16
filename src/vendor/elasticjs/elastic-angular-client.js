@@ -11,7 +11,7 @@ Angular.js service wrapping the elastic.js API. This module can simply
 be injected into your angular controllers.
 */
 angular.module('elasticjs.service', [])
-  .factory('ejsResource', ['$http', function ($http) {
+  .factory('ejsResource', ['$rootScope', '$http', function ($rootScope, $http) {
 
   return function (config) {
 
@@ -31,17 +31,12 @@ angular.module('elasticjs.service', [])
         });
       };
 
-    // check if we have a config object
-    // if not, we have the server url so
-    // we convert it to a config object
-    if (config !== Object(config)) {
-      config = {server: config};
-    }
+      $rootScope.$on('elastic.pathChanged', function(event, newConfig) {
+        config = processConfig(newConfig);
+      });
 
-    // set url to empty string if it was not specified
-    if (config.server == null) {
-      config.server = '';
-    }
+      config = processConfig(config);
+    
 
     /* implement the elastic.js client interface for angular */
     ejs.client = {
@@ -87,6 +82,23 @@ angular.module('elasticjs.service', [])
           return undefined;
         });
       }
+    };
+
+    function processConfig (config) {
+
+      // check if we have a config object
+      // if not, we have the server url so
+      // we convert it to a config object
+      if (config !== Object(config)) {
+        config = {server: config};
+      }
+
+      // set url to empty string if it was not specified
+      if (config.server == null) {
+        config.server = '';
+      }
+
+      return config;
     };
 
     return ejs;

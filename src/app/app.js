@@ -6,6 +6,8 @@ define([
   'jquery',
   'lodash',
   'require',
+  'fastclick',
+  'config',
   'elasticjs',
   'bootstrap',
   'angular-sanitize',
@@ -13,9 +15,9 @@ define([
   'angular-dragdrop',
   'angular-cookies',
   'extend-jquery',
-  'bindonce',
+  'bindonce'  
 ],
-function (angular, $, _, appLevelRequire) {
+function (angular, $, _, appLevelRequire, FastClick, config) {
 
   "use strict";
 
@@ -107,6 +109,10 @@ function (angular, $, _, appLevelRequire) {
     register_fns.factory    = $provide.factory;
     register_fns.service    = $provide.service;
     register_fns.filter     = $filterProvider.register;
+
+    // recover elasticsearch settings from localStorage
+
+    config.elasticsearch = window.localStorage.getItem('elasticsearch') || config.elasticsearch;
   });
 
   var apps_deps = [
@@ -167,6 +173,8 @@ function (angular, $, _, appLevelRequire) {
               });
             };
           }]);
+
+          FastClick.attach(document.body);
       });
   });
 

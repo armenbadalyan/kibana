@@ -48,6 +48,7 @@ require.config({
     numeral:                  '../vendor/numeral',
     jsonpath:                 '../vendor/jsonpath',
     elasticjs:                '../vendor/elasticjs/elastic-angular-client',
+    fastclick:                '../vendor/fastclick'
   },
   shim: {
     angular: {

@@ -44,14 +44,16 @@ function (angular, config, _) {
       // Provide a global list of all seen fields
       $scope.fields = fields;
       $scope.reset_row();
-
-      config.elasticsearch = window.localStorage.getItem('elasticsearch') || config.elasticsearch;
+      
       $scope.ejs = ejsResource(config.elasticsearch);
 
       $scope.$on('settingsChanged', function(event, changes) {
+        var newPath;
         if (changes.newSettings.elasticsearch !== changes.oldSettings.elasticsearch) {
-          $scope.ejs = ejsResource(changes.newSettings.elasticsearch);
-          window.localStorage.setItem('elasticsearch', changes.newSettings.elasticsearch);
+          newPath = changes.newSettings.elasticsearch;
+          config.elasticsearch = newPath;
+          $scope.$emit('elastic.pathChanged', newPath);
+          window.localStorage.setItem('elasticsearch', newPath);
           $location.path('/dashboard');
         } 
       });
